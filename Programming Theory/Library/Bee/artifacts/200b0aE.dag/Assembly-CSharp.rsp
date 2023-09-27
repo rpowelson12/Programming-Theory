@@ -356,7 +356,9 @@
 -analyzer:"/Users/powelsr/Desktop/Unity/2022.3.8f1/Unity.app/Contents/Tools/Unity.SourceGenerators/Unity.Properties.SourceGenerator.dll"
 -analyzer:"/Users/powelsr/Desktop/Unity/2022.3.8f1/Unity.app/Contents/Tools/Unity.SourceGenerators/Unity.SourceGenerators.dll"
 "Assets/InputSystem/PlayerInputActions.cs"
+"Assets/Scripts/MainGame UI.cs"
 "Assets/Scripts/PlayerController.cs"
+"Assets/Scripts/TitleScreenUI.cs"
 -langversion:9.0
 
 /deterministic
