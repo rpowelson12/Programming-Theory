@@ -2,16 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : Characters
 {
-    [SerializeField] private PlayerInputActions playerInputActions;
-    [SerializeField] private Rigidbody playerRb;
-    [SerializeField] private GameObject player;
+    private PlayerInputActions playerInputActions;
+    private Rigidbody playerRb;
+    private GameObject player;
+
+    
 
     
 
     private void Awake()
     {
+        playerRb = GetComponent<Rigidbody>();
+        player = GameObject.Find("Player");
         playerInputActions = new PlayerInputActions();
         playerInputActions.Player.Movement.performed += Movement_performed;
     }
@@ -32,8 +36,6 @@ public class PlayerController : MonoBehaviour
         
     }
 
-
-
     // Start is called before the first frame update
     void Start()
     {
@@ -43,10 +45,10 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        HandleMovement();
+        Move();
     }
 
-    private void HandleMovement()
+    public void Move()
     {
         float speed = 10f;
 
@@ -54,31 +56,10 @@ public class PlayerController : MonoBehaviour
         Vector3 moveDir = new Vector3(playerInput.x, 0, playerInput.y);
         playerRb.AddForce(moveDir * speed * Time.deltaTime, ForceMode.Impulse);
 
-        ConstrainMovement();
-        
+        Vector3 position = Characters.ConstrainMovement(player.transform.position.x, player.transform.position.z);
+        player.transform.position = position;
     }
 
-    private void ConstrainMovement()
-    {
-        float playerXpos = player.transform.position.x;
-        float playerYpos = player.transform.position.z;
-
-        if (playerXpos < -45)
-        {
-            transform.position = new Vector3(-45, 1, playerYpos);
-        }
-        else if (playerXpos > 45)
-        {
-            transform.position = new Vector3(45, 1, playerYpos);
-        }
-        else if (playerYpos < -38)
-        {
-            transform.position = new Vector3(playerXpos, 1, -38);
-        }
-        else if (playerYpos > 38)
-        {
-            transform.position = new Vector3(-playerXpos, 1, 38);
-        }
-    }
+    
 
 }
