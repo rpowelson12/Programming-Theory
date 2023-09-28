@@ -61,23 +61,23 @@ public class PlayerController : MonoBehaviour
     private void ConstrainMovement()
     {
         float playerXpos = player.transform.position.x;
-        float playerYpos = player.transform.position.y;
+        float playerYpos = player.transform.position.z;
 
-        if (playerXpos < 45)
+        if (playerXpos < -45)
         {
-            playerXpos = 45;
+            transform.position = new Vector3(-45, 1, playerYpos);
         }
         else if (playerXpos > 45)
         {
-            playerXpos = -45;
+            transform.position = new Vector3(45, 1, playerYpos);
         }
-        else if (playerYpos < 45)
+        else if (playerYpos < -38)
         {
-            playerYpos = 45;
+            transform.position = new Vector3(playerXpos, 1, -38);
         }
-        else if (playerYpos > -45)
+        else if (playerYpos > 38)
         {
-            playerYpos = -45;
+            transform.position = new Vector3(-playerXpos, 1, 38);
         }
     }
 
