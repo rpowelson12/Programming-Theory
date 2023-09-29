@@ -364,6 +364,7 @@
 "Assets/Scripts/Enemies.cs"
 "Assets/Scripts/MainGame UI.cs"
 "Assets/Scripts/PlayerController.cs"
+"Assets/Scripts/SpawnManager.cs"
 "Assets/Scripts/TitleScreenUI.cs"
 -langversion:9.0
 
