@@ -7,8 +7,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] GameObject enemyPrefab;
     
     private float startTime = 1;
-    private float repeatRate = 1;
-    private float enemyMax = 5;
+    private float repeatRate = 1;    
     private int spawnRange = 30;
 
     // Start is called before the first frame update

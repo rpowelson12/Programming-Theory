@@ -7,27 +7,34 @@ public class PlayerController : Characters
     private PlayerInputActions playerInputActions;
     private Rigidbody playerRb;
     private GameObject player;
-
-    
-
+    [SerializeField] private Transform bulletSpawnPoint;
+    [SerializeField] private GameObject bulletPrefab;
+    private float bulletSpeed = 50f;
     
 
     private void Awake()
     {
-        playerRb = GetComponent<Rigidbody>();
-        player = GameObject.Find("Player");
+        playerRb = GetComponent<Rigidbody>();        
         playerInputActions = new PlayerInputActions();
         playerInputActions.Player.Movement.performed += Movement_performed;
+        playerInputActions.Player.Shoot.performed += Shoot_performed;
+    }
+
+    private void Shoot_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        SpawnBullet();
     }
 
     private void OnEnable()
     {
         playerInputActions.Player.Movement.Enable();
+        playerInputActions.Player.Shoot.Enable();
     }
 
     private void OnDisable()
     {
-        playerInputActions.Player.Movement.Enable();
+        playerInputActions.Player.Movement.Disable();
+        playerInputActions.Player.Shoot.Disable();
     }
 
 
@@ -53,13 +60,20 @@ public class PlayerController : Characters
         float speed = 10f;
 
         Vector2 playerInput = playerInputActions.Player.Movement.ReadValue<Vector2>();
-        Vector3 moveDir = new Vector3(playerInput.x, 0, playerInput.y);
+        Vector3 moveDir = new Vector3(playerInput.x, 0, playerInput.y);        
         playerRb.AddForce(moveDir * speed * Time.deltaTime, ForceMode.Impulse);
 
-        Vector3 position = Characters.ConstrainMovement(player.transform.position.x, player.transform.position.z);
-        player.transform.position = position;
+        float rotateSpeed = 10f;
+        transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * rotateSpeed);
+
+        Vector3 position = ConstrainMovement(transform.position.x, transform.position.z);
+        transform.position = position;
     }
 
-    
+    private void SpawnBullet()
+    {
+        var bullet = Instantiate(bulletPrefab, bulletSpawnPoint.forward, bulletSpawnPoint.rotation);
+        bullet.GetComponent<Rigidbody>().velocity = bulletSpawnPoint.forward * bulletSpeed;
+    }
 
 }
